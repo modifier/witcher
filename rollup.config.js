@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -63,6 +64,14 @@ export default {
 		typescript({
 			sourceMap: !production,
 			inlineSources: !production
+		}),
+		copy({
+			targets: [
+				{
+					src: 'node_modules/leaflet/dist/images/**',
+					dest: 'public/build/images/'
+				}
+			]
 		}),
 
 		// In dev mode, call `npm run start` once

@@ -22,6 +22,13 @@ export default class Map {
         L.tileLayer('assets/tiles/{z}/{x}/{y}.png', {
             noWrap: true,
         }).addTo(this.map);
+
+        this.addMarkers();
+    }
+
+    addMarkers(): void {
+        L.marker([-923, 1465]).addTo(this.map)
+            .bindPopup('Pont Vanis');
     }
 
     invalidateSize(): void {
