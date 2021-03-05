@@ -1,5 +1,4 @@
 import * as L from 'leaflet';
-import type { LatLngBoundsLiteral } from 'leaflet';
 
 export default class Map {
     private readonly container: HTMLElement;
@@ -10,18 +9,19 @@ export default class Map {
     }
 
     initialize(): void {
-        const size = [5093, 7209];
         this.map = L.map(this.container, {
             preferCanvas: true,
             crs: L.CRS.Simple,
-            minZoom: -3,
-            maxZoom: 0,
+            minZoom: 0,
+            maxZoom: 5,
+            zoomDelta: 0.25,
+            maxBoundsViscosity: 1
         });
-        let bounds: LatLngBoundsLiteral = [[0, 0], [size[1], size[0]]];
 
-        this.map.setView([size[1] / 2, size[0] / 2], -3);
-
-        L.imageOverlay('assets/map.jpg', bounds).addTo(this.map);
+        this.map.setView([0, 0], 3);
+        L.tileLayer('assets/tiles/{z}/{x}/{y}.png', {
+            noWrap: true,
+        }).addTo(this.map);
     }
 
     invalidateSize(): void {
