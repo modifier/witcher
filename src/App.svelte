@@ -1,30 +1,79 @@
 <script lang="ts">
-	export let name: string;
-</script>
+	import Map from './map';
+	import 'leaflet/dist/leaflet.css';
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+	let map: Map;
 
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	function mapAction(container) {
+		map = new Map(container);
+		map.initialize();
+
+		return {
+			destroy: () => {
+				map.remove();
+				map = null;
+			}
+		};
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
+	function resizeMap() {
+		if (map) {
+			map.invalidateSize();
 		}
 	}
+</script>
+
+<style>
+	.app-wrapper {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.map-wrapper {
+		flex: 1 0 auto;
+		width: 100%;
+		padding: 30px;
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	.map-wrapper:before {
+		position: absolute;
+		top: 15px;
+		left: 15px;
+		right: 15px;
+		bottom: 15px;
+		background-color: #ad7546;
+		content: "";
+		border: 1px #000 solid;
+		z-index: 1;
+	}
+
+	.map-wrapper:after {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #d4b8a2;
+		content: "";
+		z-index: 0;
+	}
+
+	.map {
+		border: 1px #000 solid;
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
 </style>
+
+<svelte:window on:resize={resizeMap}/>
+<div class="app-wrapper">
+	<div class="map-wrapper">
+		<div class="map" use:mapAction></div>
+	</div>
+</div>
