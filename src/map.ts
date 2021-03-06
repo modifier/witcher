@@ -1,8 +1,11 @@
 import * as L from 'leaflet';
+import 'leaflet-rastercoords';
 
 export default class Map {
     private readonly container: HTMLElement;
     private map: L.Map;
+    private rc: L.RasterCoords;
+    private size = [5093, 7209];
 
     constructor(container: HTMLElement) {
         this.container = container;
@@ -17,17 +20,20 @@ export default class Map {
             zoomDelta: 0.25,
             maxBoundsViscosity: 1
         });
+        this.rc = new L.RasterCoords(this.map, this.size);
+        this.rc.setMaxBounds();
 
-        this.map.setView([0, 0], 3);
+        this.map.setView(this.rc.unproject([this.size[1] / 2, this.size[0] / 2]), 3);
         L.tileLayer('assets/tiles/{z}/{x}/{y}.png', {
             noWrap: true,
+            bounds: this.getBounds(),
         }).addTo(this.map);
 
         this.addMarkers();
     }
 
     addMarkers(): void {
-        L.marker([-923, 1465]).addTo(this.map)
+        L.marker(this.rc.unproject([1465, 923])).addTo(this.map)
             .bindPopup('Pont Vanis');
     }
 
@@ -37,5 +43,12 @@ export default class Map {
 
     remove(): void {
         this.map.remove();
+    }
+
+    private getBounds(): L.LatLngBounds {
+        let southWest = this.rc.unproject([0, this.size[1]]);
+        let northEast = this.rc.unproject([this.size[0], 0]);
+
+        return new L.LatLngBounds(southWest, northEast);
     }
 }
