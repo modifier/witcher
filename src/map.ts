@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
 import 'leaflet-rastercoords';
+import '@geoman-io/leaflet-geoman-free';
 
 export default class Map {
     private readonly container: HTMLElement;
@@ -34,23 +35,14 @@ export default class Map {
     }
 
     addMarkers(): void {
-        L.marker(this.rc.unproject([1465, 923])).addTo(this.map)
+        L.marker(this.rc.unproject([1465, 923]), { pmIgnore: true }).addTo(this.map)
             .bindPopup('Pont Vanis');
     }
 
     bindMarkerCreation(): void {
-        this.map.doubleClickZoom.disable();
-
-        this.map.on('dblclick', ({latlng: {lat, lng}}: L.LeafletMouseEvent) => {
-            let marker = L.marker({lat, lng}, {
-                draggable: true
-            }).addTo(this.map)
-                .bindPopup(JSON.stringify(this.rc.project([lat, lng])))
-                .openPopup()
-                .on('dragend', () => {
-                    const {lat, lng} = marker.getLatLng();
-                    marker.bindPopup(JSON.stringify(this.rc.project([lat, lng])));
-                })
+        this.map.pm.addControls({
+            position: 'topright',
+            drawCircle: false,
         });
 
     }
