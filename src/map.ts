@@ -41,11 +41,18 @@ export default class Map {
     bindMarkerCreation(): void {
         this.map.doubleClickZoom.disable();
 
-        this.map.on('dblclick', ({ latlng: { lat, lng }}: L.LeafletMouseEvent) => {
-            L.marker({ lat, lng }).addTo(this.map)
+        this.map.on('dblclick', ({latlng: {lat, lng}}: L.LeafletMouseEvent) => {
+            let marker = L.marker({lat, lng}, {
+                draggable: true
+            }).addTo(this.map)
                 .bindPopup(JSON.stringify(this.rc.project([lat, lng])))
-                .openPopup();
+                .openPopup()
+                .on('dragend', () => {
+                    const {lat, lng} = marker.getLatLng();
+                    marker.bindPopup(JSON.stringify(this.rc.project([lat, lng])));
+                })
         });
+
     }
 
     invalidateSize(): void {
