@@ -30,11 +30,20 @@ export default class Map {
         }).addTo(this.map);
 
         this.addMarkers();
+        this.bindMarkerCreation();
     }
 
     addMarkers(): void {
         L.marker(this.rc.unproject([1465, 923])).addTo(this.map)
             .bindPopup('Pont Vanis');
+    }
+
+    bindMarkerCreation(): void {
+        this.map.on('dblclick', (e: L.LeafletMouseEvent) => {
+            L.marker(e.latlng).addTo(this.map)
+                .bindPopup(JSON.stringify(e.latlng))
+                .openPopup();
+        });
     }
 
     invalidateSize(): void {
