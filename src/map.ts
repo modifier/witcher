@@ -39,9 +39,11 @@ export default class Map {
     }
 
     bindMarkerCreation(): void {
-        this.map.on('dblclick', (e: L.LeafletMouseEvent) => {
-            L.marker(e.latlng).addTo(this.map)
-                .bindPopup(JSON.stringify(e.latlng))
+        this.map.doubleClickZoom.disable();
+
+        this.map.on('dblclick', ({ latlng: { lat, lng }}: L.LeafletMouseEvent) => {
+            L.marker({ lat, lng }).addTo(this.map)
+                .bindPopup(JSON.stringify(this.rc.project([lat, lng])))
                 .openPopup();
         });
     }
