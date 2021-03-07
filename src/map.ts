@@ -7,6 +7,7 @@ export default class Map {
     private map: L.Map;
     private rc: L.RasterCoords;
     private size = [5093, 7209];
+    private cities = [{ "name": "Pont Vanis", "coordinates": [1465, 923] }];
 
     constructor(container: HTMLElement) {
         this.container = container;
@@ -30,18 +31,24 @@ export default class Map {
             bounds: this.getBounds(),
         }).addTo(this.map);
 
-        this.addMarkers();
         this.bindMarkerCreation();
+
+        let cityLayer = this.createCityLayer();
+        L.control.layers({}, {"Города": cityLayer}).addTo(this.map);
     }
 
-    addMarkers(): void {
-        L.marker(this.rc.unproject([1465, 923]), { pmIgnore: true }).addTo(this.map)
-            .bindPopup('Pont Vanis');
+    createCityLayer(): L.LayerGroup {
+        let citiesLayer = L.layerGroup().addTo(this.map);
+        for (let city of this.cities) {
+            L.marker(this.rc.unproject(city.coordinates as L.PointTuple), { pmIgnore: true }).bindPopup(city.name).addTo(citiesLayer);
+        }
+
+        return citiesLayer;
     }
 
     bindMarkerCreation(): void {
         this.map.pm.addControls({
-            position: 'topright',
+            position: 'topleft',
             drawCircle: false,
         });
 
