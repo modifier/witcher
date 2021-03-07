@@ -5,7 +5,7 @@
 
 	let map: Map;
 
-	function mapAction(container) {
+	function mapAction(container: HTMLElement) {
 		map = new Map(container);
 		map.initialize();
 
