@@ -52,20 +52,13 @@ export default class Map {
             coordsToLatLng: (coords: L.PointTuple) => {
                 return this.rc.unproject(coords);
             },
-            style: (feature) => {
-                switch (feature.properties.country) {
-                    case 'nilfgaard':
-                        return {color: "#35404c"};
-                    case 'redania':
-                        return {color: "#a8360e"};
-                    case 'temeria':
-                        return {color: "#386eb7"};
-                    case 'cintra':
-                        return {color: "#7087a0"};
-                    default:
-                        return {color: "#0000ff"};
-                }
-            }
+            style: (feature) => ({
+                color: '#000',
+                opacity: 0.3,
+                weight: 1,
+                fillColor: feature.properties.color,
+                fillOpacity: 0.3
+            })
         }).addTo(this.map);
     }
 
