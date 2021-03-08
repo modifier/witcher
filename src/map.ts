@@ -19,7 +19,7 @@ export default class Map {
             preferCanvas: true,
             crs: L.CRS.Simple,
             minZoom: 0,
-            maxZoom: 5,
+            maxZoom: 7,
             zoomDelta: 0.25,
             maxBoundsViscosity: 1
         });
@@ -30,6 +30,8 @@ export default class Map {
         L.tileLayer('assets/tiles/{z}/{x}/{y}.png', {
             noWrap: true,
             bounds: this.getBounds(),
+            maxZoom: 7,
+            maxNativeZoom: 5
         }).addTo(this.map);
 
         this.bindMarkerCreation();
@@ -65,6 +67,14 @@ export default class Map {
                     default:
                         return {color: "#0000ff"};
                 }
+            },
+            onEachFeature: (feature: unknown, layer: L.Layer) => {
+                layer.on('pm:update', (e) => {
+                    console.log('updated layer', JSON.stringify(e.layer._latlngs[0].map((latlng) => {
+                        let point = this.rc.project([latlng.lat, latlng.lng]);
+                        return [point.x, point.y];
+                    })));
+                })
             }
         }).addTo(this.map);
     }
@@ -75,6 +85,12 @@ export default class Map {
             drawCircle: false,
         });
 
+        this.map.on('pm:create', (e) => {
+            console.log('new layer', JSON.stringify(e.layer._latlngs[0].map((latlng) => {
+                let point = this.rc.project([latlng.lat, latlng.lng]);
+                return [point.x, point.y];
+            })));
+        });
     }
 
     invalidateSize(): void {
