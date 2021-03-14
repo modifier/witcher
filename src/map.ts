@@ -27,7 +27,7 @@ export default class Map {
         this.rc.setMaxBounds();
 
         this.map.setView(this.rc.unproject([this.size[1] / 2, this.size[0] / 2]), 3);
-        L.tileLayer('assets/tiles/{z}/{x}/{y}.png', {
+        L.tileLayer('assets/base/{z}/{x}/{y}.png', {
             noWrap: true,
             bounds: this.getBounds(),
             maxZoom: 7,
@@ -38,7 +38,9 @@ export default class Map {
 
         let cityLayer = this.createCityLayer();
         let kingdomsLayer = this.createKingdomsLayer();
-        L.control.layers({}, {"Города": cityLayer, "Королевства": kingdomsLayer}).addTo(this.map);
+        let labelsLayer = this.createLabelsLayer();
+
+        L.control.layers({}, {"Города": cityLayer, "Королевства": kingdomsLayer, "Надписи": labelsLayer}).addTo(this.map);
     }
 
     createCityLayer(): L.LayerGroup {
@@ -69,6 +71,20 @@ export default class Map {
                     })));
                 })
             }
+        }).addTo(this.map);
+    }
+
+    createLabelsLayer(): L.TileLayer {
+        this.map.createPane('labels');
+        this.map.getPane('labels').style.zIndex = '450';
+        this.map.getPane('labels').style.pointerEvents = 'none';
+
+        return L.tileLayer('assets/labels/{z}/{x}/{y}.png', {
+            noWrap: true,
+            bounds: this.getBounds(),
+            pane: 'labels',
+            maxZoom: 7,
+            maxNativeZoom: 5
         }).addTo(this.map);
     }
 
