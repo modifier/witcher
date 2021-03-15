@@ -47,6 +47,10 @@ export default class Map {
         return L.geoJSON(cities, {
             coordsToLatLng: (coords: L.PointTuple) => {
                 return this.rc.unproject(coords);
+            },
+            pointToLayer: (feature, latlng) => {
+                return L.marker(latlng)
+                    .bindPopup(`<a href="${feature.properties.url}">${feature.properties.name}</a>`);
             }
         }).addTo(this.map);
     }

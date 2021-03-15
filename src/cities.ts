@@ -5,7 +5,8 @@ export default {
     features: [{
         "type": "Feature",
         "properties": {
-            "name": "Pont Vanis"
+            "name": "Pont Vanis",
+            "url": "https://witcher.fandom.com/wiki/Pont_Vanis"
         },
         "geometry": {
             "type": "Point",
@@ -14,7 +15,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Novigrad"
+            "name": "Novigrad",
+            "url": "https://witcher.fandom.com/wiki/Novigrad"
         },
         "geometry": {
             "type": "Point",
@@ -23,7 +25,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Cintra"
+            "name": "Cintra",
+            "url": "https://witcher.fandom.com/wiki/Cintra_(city)"
         },
         "geometry": {
             "type": "Point",
@@ -32,7 +35,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Blaviken"
+            "name": "Blaviken",
+            "url": "https://witcher.fandom.com/wiki/Blaviken"
         },
         "geometry": {
             "type": "Point",
@@ -41,7 +45,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Tretogor"
+            "name": "Tretogor",
+            "url": "https://witcher.fandom.com/wiki/Tretogor"
         },
         "geometry": {
             "type": "Point",
@@ -50,7 +55,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "La Valette"
+            "name": "La Valette Castle",
+            "url": "https://witcher.fandom.com/wiki/La_Valette_Castle"
         },
         "geometry": {
             "type": "Point",
@@ -59,7 +65,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Vizima"
+            "name": "Vizima",
+            "url": "https://witcher.fandom.com/wiki/Vizima"
         },
         "geometry": {
             "type": "Point",
@@ -68,7 +75,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Verden"
+            "name": "Vergen",
+            "url": "https://witcher.fandom.com/wiki/Vergen"
         },
         "geometry": {
             "type": "Point",
@@ -77,7 +85,8 @@ export default {
     }, {
         "type": "Feature",
         "properties": {
-            "name": "Loc Muinne"
+            "name": "Loc Muinne",
+            "url": "https://witcher.fandom.com/wiki/Loc_Muinne"
         },
         "geometry": {
             "type": "Point",
